@@ -3,7 +3,16 @@ channelID = 2001772;
 readAPIKey = '83M7ROH6IQ6QDXFF';
 
 % Retrieve the data from ThingSpeak
-data = thingSpeakRead(channelID, Fields=[4,5,6], NumPoints=6);
+data = thingSpeakRead(channelID, Fields=[4,5,6], NumPoints=5);
+
+% Define the threshold value
+threshold = 120000;
+
+% Find the indices of the outliers in all fields
+outlier_indices = find(any(isoutlier(data),2));
+
+% Remove the outliers from the data set
+data(outlier_indices,:) = [];
 
 figure;
 hold on;
@@ -12,8 +21,12 @@ x = x / 1000;
 y1 = data(:,2);
 y2 = data(:,3);
 
-plot(x,y1,'r');
-plot(x,y2,'b');
+xq = linspace(min(x), max(x), numel(x)); % create a new x values with a constant step
+y1 = interp1(x,y1,xq);
+y2 = interp1(x,y2,xq);
+
+plot(xq,y1,'r');
+plot(xq,y2,'b');
 xlabel('Time (seconds)');
 ylabel('G-Force');
 legend('Accel/Brake','Turn');
