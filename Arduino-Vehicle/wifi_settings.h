@@ -1,5 +1,5 @@
-#define SECRET_WIFI "The Promised LAN"
-#define SECRET_PASS "cnQbkqsy2xnf"
+#define SECRET_WIFI ""
+#define SECRET_PASS ""
 
 #define SECRET_mqttBroker "broker.hivemq.com"
 #define SECRET_mqttPort 1883;
